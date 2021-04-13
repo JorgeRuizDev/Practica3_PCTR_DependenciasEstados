@@ -5,16 +5,10 @@ import java.util.Hashtable;
 
 public class Parque implements IParque{
 
-
-	// TODO
 	private int contadorPersonasTotales;
 	private final Hashtable<String, Integer> contadoresPersonasPuerta;
-
-	private int contadorPersonasTotales;
-	private final Hashtable<String, Integer> contadoresPersonasPuertas;
 	
-	
-	public Parque() {	// TODO
+	public Parque() {
 		contadorPersonasTotales = 0;
 		contadoresPersonasPuerta = new Hashtable<String, Integer>();
 		// TODO
@@ -22,33 +16,29 @@ public class Parque implements IParque{
 
 
 	@Override
-	public void entrarAlParque(String puerta){		// TODO
+	public void entrarAlParque(String puerta){
 
 		// Si no hay entradas por esa puerta, inicializamos
 		contadoresPersonasPuerta.putIfAbsent(puerta, 0);
-
-		// TODO
-
 
 		// Aumentamos el contador total y el individual
 		contadorPersonasTotales++;
 		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta)+1);
 
+		// Comprobamos invariante
+		checkInvariante();
+
 		// Imprimimos el estado del parque
 		imprimirInfo(puerta, "Entrada");
-
-		// TODO
-
-
-		// TODO
-
 	}
-	
-	// 
-	// TODO Método salirDelParque
-	//
-	
-	
+
+	@Override
+	public void salirDelParque(String puerta) {
+		// Disminuimos el contador total y el individual
+		contadorPersonasTotales--;
+		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta)-1);
+	}
+
 	private void imprimirInfo (String puerta, String movimiento){
 		System.out.println(movimiento + " por puerta " + puerta);
 		System.out.println("--> Personas en el parque " + contadorPersonasTotales); //+ " tiempo medio de estancia: "  + tmedio);
