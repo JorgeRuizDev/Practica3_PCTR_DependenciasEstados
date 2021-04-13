@@ -17,12 +17,14 @@ public class SistemaLanzador {
 	 */
 	public static void main(String[] args) {
 
+		int numPuertas = args.length > 0 ? Integer.parseInt(args[0]) : 5;
+
 		IParque parque = new Parque(); // TODO
 		char letra_puerta = 'A';
 
 		System.out.println("¡Parque abierto!");
 
-		for (int i = 0; i < Integer.parseInt(args[0]); i++) {
+		for (int i = 0; i < numPuertas; i++) {
 
 			String puerta = "" + letra_puerta++;
 
