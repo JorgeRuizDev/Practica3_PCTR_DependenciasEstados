@@ -9,6 +9,9 @@ public class Parque implements IParque {
 	private int contadorPersonasTotales;
 	private final Hashtable<String, Integer> contadoresPersonasPuerta;
 
+	/**
+	 * Constructor de la clase
+	 */
 	public Parque() {
 		contadorPersonasTotales = 0;
 		contadoresPersonasPuerta = new Hashtable<>();
