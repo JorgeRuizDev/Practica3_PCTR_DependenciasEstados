@@ -11,7 +11,7 @@ public class Parque implements IParque {
 
 	public Parque() {
 		contadorPersonasTotales = 0;
-		contadoresPersonasPuerta = new Hashtable<String, Integer>();
+		contadoresPersonasPuerta = new Hashtable<>();
 	}
 
 	@Override
