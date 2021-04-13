@@ -19,7 +19,7 @@ public class SistemaLanzador {
 
 		int numPuertas = args.length > 0 ? Integer.parseInt(args[0]) : 5;
 
-		IParque parque = new Parque(); // TODO
+		IParque parque = new Parque();
 		char letra_puerta = 'A';
 
 		System.out.println("¡Parque abierto!");
