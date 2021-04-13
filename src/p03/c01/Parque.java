@@ -17,40 +17,38 @@ public class Parque implements IParque {
 		contadoresPersonasPuerta = new Hashtable<>();
 	}
 
-	@Override
+    @Override
 	public synchronized void entrarAlParque(String puerta) {
 
-        comprobarAntesDeEntrar();
-
-		// Si no hay entradas por esa puerta, inicializamos
-		contadoresPersonasPuerta.putIfAbsent(puerta, 0);
+        comprobarAntesDeEntrar(); // Wait
 
 		// Aumentamos el contador total y el individual
-		contadorPersonasTotales++;
-		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta) + 1);
+        incrementarContador(puerta);
 
-		// Comprobamos invariante
+        // Comprobamos invariante
 		checkInvariante();
 
 		// Imprimimos el estado del parque
 		imprimirInfo(puerta, "Entrada");
+
+        this.notifyAll();
 	}
 
 	@Override
 	public synchronized void salirDelParque(String puerta) {
 
-		comprobarAntesDeSalir();
+        comprobarAntesDeSalir();
 
 		// Disminuimos el contador total y el individual
-		contadorPersonasTotales--;
-		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta) - 1);
+        decrementarContador(puerta);
 
 		// Comprobamos invariante
 		checkInvariante();
 
 		// Imprimimos el estado del parque
 		imprimirInfo(puerta, "Salida");
-		notify();
+
+        this.notifyAll();
 	}
 
 	private void imprimirInfo(String puerta, String movimiento) {
@@ -68,27 +66,45 @@ public class Parque implements IParque {
 		return contadoresPersonasPuerta.values().stream().mapToInt(Integer::intValue).sum();
 	}
 
-	protected void checkInvariante() {
-		assert sumarContadoresPuerta() == contadorPersonasTotales : "INV: La suma de contadores de las puertas debe ser igual al valor del contador del parte";
-		assert contadorPersonasTotales <= MAX_PERSONAS : "INV: El parque tiene más personas que su capacidad";
-		assert contadorPersonasTotales >= 0 : "INV: El parque tiene personas demasiado negativas";
-	}
 
-	private void waitForCheck() {
+    private void changeVal(String puerta, int number) {
+        int val = 0;
+        if (this.contadoresPersonasPuerta.containsKey(puerta))
+            val = this.contadoresPersonasPuerta.get(puerta);
+        this.contadoresPersonasPuerta.put(puerta, val + number);
+    }
+
+    private void incrementarContador(String puerta) {
+        this.changeVal(puerta, 1);
+        this.contadorPersonasTotales++;
+    }
+
+    private void decrementarContador(String puerta) {
+        this.changeVal(puerta, -1);
+        this.contadorPersonasTotales--;
+    }
+
+    private void waitForCheck() {
         try {
-            wait();
+            this.wait();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
+	protected void checkInvariante() {
+		assert sumarContadoresPuerta() == contadorPersonasTotales : "INV: La suma de contadores de las puertas debe ser igual al valor del contador del parque";
+		assert contadorPersonasTotales <= MAX_PERSONAS : "INV: El parque tiene más personas que su capacidad";
+		assert contadorPersonasTotales >= 0 : "INV: El parque tiene personas demasiado negativas";
+	}
+
 	protected void comprobarAntesDeEntrar() {
-		if (contadorPersonasTotales > MAX_PERSONAS)
+		while (contadorPersonasTotales > MAX_PERSONAS)
             waitForCheck();
 	}
 
 	protected void comprobarAntesDeSalir() {
-		if (contadorPersonasTotales < 1)
+		while (contadorPersonasTotales < 1)
             waitForCheck();
 	}
 
