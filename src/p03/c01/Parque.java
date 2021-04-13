@@ -20,7 +20,9 @@ public class Parque implements IParque{
 
 	@Override
 	public void entrarAlParque(String puerta){		// TODO
-		
+
+		comprobarAntesDeEntrar();
+
 		// Si no hay entradas por esa puerta, inicializamos
 		if (contadoresPersonasPuerta.get(puerta) == null){
 			contadoresPersonasPuerta.put(puerta, 0);
@@ -36,11 +38,10 @@ public class Parque implements IParque{
 		// Imprimimos el estado del parque
 		imprimirInfo(puerta, "Entrada");
 		
-		// TODO
+		checkInvariante();
 		
 		
-		// TODO
-		
+		comprobarAntesDeSalir();
 	}
 	
 	// 
@@ -70,7 +71,7 @@ public class Parque implements IParque{
 	
 	protected void checkInvariante() {
 		assert sumarContadoresPuerta() == contadorPersonasTotales : "INV: La suma de contadores de las puertas debe ser igual al valor del contador del parte";
-		// TODO 
+		// TODO
 		// TODO
 	}
 
