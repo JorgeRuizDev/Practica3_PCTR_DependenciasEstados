@@ -4,15 +4,15 @@ import java.util.Hashtable;
 
 public class Parque implements IParque {
 
+	public static int MAX_PERSONAS = 50;
+
   private int contadorPersonasTotales;
   private final Hashtable<String, Integer> contadoresPersonasPuerta;
 
   public Parque() {
     contadorPersonasTotales = 0;
     contadoresPersonasPuerta = new Hashtable<String, Integer>();
-    // TODO
   }
-
 
   @Override
   public void entrarAlParque(String puerta) {
@@ -64,15 +64,12 @@ public class Parque implements IParque {
   }
 
   protected void comprobarAntesDeEntrar() {  // TODO
-    //
-    // TODO
-    //
+    boolean entradaDisp = sumarContadoresPuerta() < MAX_PERSONAS;
+
   }
 
   protected void comprobarAntesDeSalir() {    // TODO
-    //
-    // TODO
-    //
+    boolean hay = sumarContadoresPuerta() > 0;
   }
 
 
