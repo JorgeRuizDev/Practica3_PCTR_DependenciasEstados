@@ -41,13 +41,16 @@ public class Parque implements IParque{
 		checkInvariante();
 		
 		
-		comprobarAntesDeSalir();
 	}
 	
-	// 
-	// TODO Método salirDelParque
-	//
-	
+	public void salirDelParque(String puerta){
+
+		comprobarAntesDeSalir();
+
+		imprimirInfo(puerta, "Salida");
+
+
+	}
 	
 	private void imprimirInfo (String puerta, String movimiento){
 		System.out.println(movimiento + " por puerta " + puerta);
@@ -81,10 +84,10 @@ public class Parque implements IParque{
 		//
 	}
 
-	protected void comprobarAntesDeSalir(){		// TODO
-		//
-		// TODO
-		//
+	protected void comprobarAntesDeSalir() throws InterruptedException {		// TODO
+		if (contadorPersonasTotales == 0)
+			wait();
+
 	}
 
 
