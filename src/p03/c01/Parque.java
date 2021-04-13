@@ -20,6 +20,8 @@ public class Parque implements IParque {
 	@Override
 	public synchronized void entrarAlParque(String puerta) {
 
+        comprobarAntesDeEntrar();
+
 		// Si no hay entradas por esa puerta, inicializamos
 		contadoresPersonasPuerta.putIfAbsent(puerta, 0);
 
@@ -70,23 +72,22 @@ public class Parque implements IParque {
 		assert sumarContadoresPuerta() == contadorPersonasTotales : "INV: La suma de contadores de las puertas debe ser igual al valor del contador del parte";
 	}
 
-	protected void comprobarAntesDeEntrar() {  // TODO
+	private void waitForCheck() {
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+	protected void comprobarAntesDeEntrar() {
 		if (contadorPersonasTotales > MAX_PERSONAS)
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+            waitForCheck();
 	}
 
 	protected void comprobarAntesDeSalir() {
-		if (contadorPersonasTotales < 1) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		if (contadorPersonasTotales < 1)
+            waitForCheck();
 	}
 
 
