@@ -2,6 +2,13 @@ package src.p03.c01;
 
 import java.util.Hashtable;
 
+/**
+ * Clase Parque
+ *
+ * @author Iván Ruiz Gázquez <a>irg1008@alu.ubu.es</a>
+ * @author Jorge Ruiz Gómez <a>jrg1011@alu.ubu.es</a>
+ * @author José Barbero <a>https://github.com/JoseBarbero</a>
+ */
 public class Parque implements IParque {
 
 	/**
